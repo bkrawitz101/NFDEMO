@@ -14,7 +14,7 @@
       --text-base: clamp(1rem, 1vw + 0.8rem, 1.125rem);
       --text-lg: clamp(1.25rem, 1.5vw + 1rem, 1.75rem);
       --text-xl: clamp(1.5rem, 2.5vw + 1rem, 2.5rem);
-      --text-2xl: clamp(2rem, 3vw + 1.5rem, 3rem);
+      --text-2xl: clamp(1.1rem, 4vw + 0.5rem, 3rem);
       --text-hero: clamp(4rem, 8vw + 2rem, 9rem);
 
       /* Dark Mode Colors */
@@ -434,9 +434,10 @@
     .glass-panel h4 { font-size: var(--text-lg); margin-bottom: 0.5rem; color: var(--color-cyan); position: relative; z-index: 1; text-transform: uppercase; letter-spacing: 0.05em; }
 
     @media (max-width: 768px) {
-      .corner-accents, #content-wrapper { inset: 1.5rem; } .glass-panel { padding: 2rem; }
-      .site-header, .site-footer { padding: 0 1.5rem; height: 1.5rem; font-size: 0.55rem; }
+      .corner-accents, #content-wrapper { inset: 1rem; } .glass-panel { padding: 1.5rem; }
+      .site-header, .site-footer { padding: 0 1rem; height: 1.5rem; font-size: 0.55rem; }
       .header-nav, .newsletter, .social-links { display: none; } /* Keeps mobile clean */
+      .hero-title span { display: block; line-height: 1.1; margin-bottom: 0.2rem; }
     }
   </style>
 </head>
@@ -524,7 +525,7 @@
       </div>
 
       <div class="tech-text hero-kicker">Nevada City · 15.6 Acres</div>
-      <h1 class="hero-title">The Nail Factory</h1>
+      <h1 class="hero-title"><span>The</span> <span>Nail</span> <span>Factory</span></h1>
       <h2 class="hero-subtitle">A seasoned creative community, evolving.</h2>
 
       <div class="mystical-btn-wrapper">
