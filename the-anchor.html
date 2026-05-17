@@ -51,9 +51,12 @@
 
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 1000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
     .modal-overlay.active { display: flex; opacity: 1; }
-    .modal-content { background: rgba(7, 7, 9, 0.9); border: 1px solid var(--color-cyan); padding: 3rem; max-width: 600px; width: 90%; position: relative; transform: translateY(20px); transition: transform 0.3s; box-shadow: 0 0 40px rgba(0, 229, 255, 0.1); text-align: left; }
+    .modal-content { background: rgba(7, 7, 9, 0.9); border: 1px solid var(--color-cyan); padding: 3rem; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto; position: relative; transform: translateY(20px); transition: transform 0.3s; box-shadow: 0 0 40px rgba(0, 229, 255, 0.1); text-align: left; scrollbar-width: thin; scrollbar-color: var(--color-cyan) transparent; }
+    .modal-content::-webkit-scrollbar { width: 4px; }
+    .modal-content::-webkit-scrollbar-track { background: transparent; }
+    .modal-content::-webkit-scrollbar-thumb { background: var(--color-cyan); border-radius: 4px; }
     .modal-overlay.active .modal-content { transform: translateY(0); }
-    .modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--color-gold); font-size: 1.5rem; cursor: pointer; transition: color 0.3s; padding: 0.5rem; line-height: 1; }
+    .modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--color-gold); font-size: 1.5rem; cursor: pointer; transition: color 0.3s; padding: 0.5rem; line-height: 1; z-index: 10; }
     .modal-close:hover { color: var(--color-cyan); }
     .modal-content h2 { font-size: var(--text-xl); color: var(--color-gold); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; text-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
     .modal-content .role { color: var(--color-cyan); font-family: var(--font-tech); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.5rem; }
@@ -68,7 +71,7 @@
     .stat-label { font-family: var(--font-tech); font-size: 0.8rem; color: var(--color-gold); text-transform: uppercase; letter-spacing: 0.1em; }
 
     @media (max-width: 768px) {
-      .modal-content { padding: 2rem; }
+      .modal-content { padding: 2rem 1.5rem; }
       .stats-dashboard { grid-template-columns: 1fr; }
     }
   </style>
