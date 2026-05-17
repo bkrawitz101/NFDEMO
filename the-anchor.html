@@ -7,9 +7,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --text-xs: clamp(0.75rem, 0.7vw + 0.6rem, 0.85rem);
-      --text-base: clamp(1rem, 1vw + 0.8rem, 1.125rem);
-      --text-2xl: clamp(1.1rem, 4vw + 0.5rem, 3rem);
+      --text-xs: clamp(0.85rem, 1vw + 0.6rem, 0.95rem);
+      --text-base: clamp(1.1rem, 1.5vw + 0.8rem, 1.25rem);
+      --text-lg: clamp(1.35rem, 2vw + 1rem, 1.75rem);
+      --text-xl: clamp(1.75rem, 3vw + 1rem, 2.5rem);
+      --text-2xl: clamp(1.5rem, 4vw + 0.5rem, 3rem);
       --color-bg: #070709;
       --color-text: #eae6d9;
       --color-text-muted: #8c8980;
@@ -30,7 +32,7 @@
     }
     .tech-text { font-family: var(--font-tech); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.2em; color: var(--color-cyan); margin-bottom: 1rem; }
     h1 { font-size: var(--text-2xl); color: var(--color-text); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2rem; text-shadow: 0 0 30px rgba(212, 175, 55, 0.2); }
-    p { font-size: var(--text-base); color: var(--color-text-muted); line-height: 1.6; max-width: 60ch; margin: 0 auto 2rem; }
+    p { font-size: var(--text-base); color: var(--color-text); line-height: 1.7; max-width: 60ch; margin: 0 auto 2rem; }
     .back-btn { font-family: var(--font-tech); color: var(--color-gold); text-decoration: none; text-transform: uppercase; font-size: var(--text-xs); letter-spacing: 0.1em; border: 1px solid var(--color-gold-faint); padding: 0.75rem 1.5rem; transition: all 0.3s; display: inline-block; margin-top: 2rem; }
     .back-btn:hover { border-color: var(--color-cyan); color: var(--color-cyan); box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); }
 
@@ -44,8 +46,8 @@
     .operator-card { border: 1px solid var(--color-gold-faint); padding: 1.5rem; cursor: pointer; transition: all 0.3s; text-align: left; background: rgba(0,0,0,0.2); position: relative; z-index: 1; }
     .operator-card:hover { border-color: var(--color-cyan); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 229, 255, 0.1); }
     .operator-card h3 { font-size: var(--text-lg); color: var(--color-gold); margin-bottom: 0.25rem; text-transform: uppercase; letter-spacing: 0.1em; }
-    .operator-card .role { font-family: var(--font-tech); font-size: 0.7rem; color: var(--color-cyan); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; }
-    .operator-card p { font-size: 0.9rem; margin-bottom: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .operator-card .role { font-family: var(--font-tech); font-size: 0.85rem; color: var(--color-cyan); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; }
+    .operator-card p { font-size: 1.05rem; color: var(--color-text); margin-bottom: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 1000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
     .modal-overlay.active { display: flex; opacity: 1; }
@@ -62,8 +64,8 @@
     .stats-dashboard { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; border-top: 1px dashed var(--color-cyan-faint); padding-top: 1.5rem; }
     .stat-box { background: rgba(0, 229, 255, 0.05); border: 1px solid rgba(0, 229, 255, 0.2); padding: 1.5rem 1rem; text-align: center; box-shadow: inset 0 0 15px rgba(0, 229, 255, 0.05); }
     .stat-value { font-family: var(--font-tech); font-size: var(--text-xl); color: var(--color-cyan); margin: 0.5rem 0; text-shadow: 0 0 15px rgba(0, 229, 255, 0.5); display: flex; justify-content: center; align-items: baseline; gap: 0.3rem; }
-    .stat-value span { font-size: 0.8rem; color: var(--color-text-muted); text-shadow: none; text-transform: lowercase; }
-    .stat-label { font-family: var(--font-tech); font-size: 0.65rem; color: var(--color-gold); text-transform: uppercase; letter-spacing: 0.1em; }
+    .stat-value span { font-size: 0.95rem; color: var(--color-text-muted); text-shadow: none; text-transform: lowercase; }
+    .stat-label { font-family: var(--font-tech); font-size: 0.8rem; color: var(--color-gold); text-transform: uppercase; letter-spacing: 0.1em; }
 
     @media (max-width: 768px) {
       .modal-content { padding: 2rem; }
