@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NF Image Optimizer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Space Mono', monospace; background-color: #070709; color: #eae6d9; margin: 0; padding: 3rem 1rem; }
+    .container { max-width: 500px; margin: 0 auto; background: rgba(7, 7, 9, 0.75); padding: 2.5rem; border: 1px solid rgba(212, 175, 55, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    h1 { color: #d4af37; text-align: center; text-transform: uppercase; font-size: 1.5rem; letter-spacing: 0.1em; margin-top: 0; margin-bottom: 2rem; }
+    label { display: block; margin-top: 1.2rem; color: #00e5ff; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    input[type="text"], input[type="number"], input[type="file"] { width: 100%; padding: 0.75rem; margin-top: 0.5rem; background: #0a0a0d; border: 1px solid rgba(212, 175, 55, 0.2); color: white; font-family: 'Space Mono', monospace; box-sizing: border-box; outline: none; transition: border-color 0.3s; }
+    input[type="file"] { padding: 0.5rem; cursor: pointer; }
+    input::file-selector-button { background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.5); color: #d4af37; padding: 0.5rem 1rem; margin-right: 1rem; font-family: 'Space Mono', monospace; cursor: pointer; transition: all 0.3s; }
+    input::file-selector-button:hover { background: rgba(212, 175, 55, 0.2); }
+    input:focus { border-color: #00e5ff; }
+    .help-text { font-size: 0.75rem; color: #8c8980; margin-top: 0.25rem; }
+    button { margin-top: 2rem; width: 100%; padding: 1rem; background: transparent; color: #00e5ff; border: 1px solid #00e5ff; font-family: 'Space Mono', monospace; font-weight: bold; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: all 0.3s; }
+    button:hover { background: rgba(0, 229, 255, 0.1); box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); }
+    .message { margin-top: 2rem; padding: 1rem; background: rgba(0, 229, 255, 0.1); border: 1px solid #00e5ff; text-align: center; color: #00e5ff; font-size: 0.9rem; display: none; }
+    .file-list { margin-top: 1rem; font-size: 0.8rem; color: #8c8980; max-height: 150px; overflow-y: auto; }
+    .file-list div { padding: 0.25rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>NF Image Optimizer</h1>
+    
+    <label>Select Images to Optimize</label>
+    <input type="file" id="fileInput" multiple accept="image/png, image/jpeg, image/jpg, image/bmp, image/webp">
+    
+    <label>Max Width (px)</label>
+    <input type="number" id="maxWidth" value="1200">
+    
+    <label>Quality (1-100)</label>
+    <input type="number" id="quality" value="80">
+    
+    <label>Aspect Ratio</label>
+    <input type="text" id="aspectRatio" placeholder="e.g., 16:9 or 1:1">
+    <div class="help-text">Leave blank to keep original aspect ratio.</div>
+    
+    <button id="optimizeBtn">Optimize & Download</button>
+    
+    <div class="message" id="statusMessage"></div>
+    <div class="file-list" id="fileList"></div>
+  </div>
+
+  <script>
+    document.getElementById('optimizeBtn').addEventListener('click', async () => {
+      const files = document.getElementById('fileInput').files;
+      const maxWidth = parseInt(document.getElementById('maxWidth').value, 10);
+      const quality = parseInt(document.getElementById('quality').value, 10) / 100;
+      const arInput = document.getElementById('aspectRatio').value.trim();
+      const status = document.getElementById('statusMessage');
+      const fileList = document.getElementById('fileList');
+      
+      if (files.length === 0) {
+        status.style.display = 'block';
+        status.textContent = 'Please select at least one image.';
+        return;
+      }
+
+      let targetRatio = null;
+      if (arInput) {
+        const parts = arInput.split(':');
+        if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+          targetRatio = parseFloat(parts[0]) / parseFloat(parts[1]);
+        } else {
+          status.style.display = 'block';
+          status.textContent = 'Invalid aspect ratio format. Use W:H (e.g., 16:9)';
+          return;
+        }
+      }
+
+      status.style.display = 'block';
+      status.textContent = `Processing ${files.length} images...`;
+      fileList.innerHTML = '';
+
+      let processedCount = 0;
+
+      for (const file of files) {
+        try {
+          await processFile(file, maxWidth, quality, targetRatio);
+          processedCount++;
+          fileList.innerHTML += `<div>✅ Optimized: ${file.name}</div>`;
+        } catch (err) {
+          fileList.innerHTML += `<div style="color: #ff3db8;">❌ Error: ${file.name} - ${err.message}</div>`;
+        }
+      }
+
+      status.textContent = `Done! Sent ${processedCount} images to your downloads folder.`;
+    });
+
+    function processFile(file, maxWidth, quality, targetRatio) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            let sX = 0, sY = 0, sW = img.width, sH = img.height;
+
+            // Crop logic
+            if (targetRatio) {
+              const origRatio = img.width / img.height;
+              if (Math.abs(origRatio - targetRatio) > 0.01) {
+                if (origRatio > targetRatio) {
+                  sW = img.height * targetRatio; sX = (img.width - sW) / 2;
+                } else {
+                  sH = img.width / targetRatio; sY = (img.height - sH) / 2;
+                }
+              }
+            }
+
+            let dW = sW, dH = sH;
+            if (dW > maxWidth) { dH = (maxWidth / dW) * dH; dW = maxWidth; }
+
+            canvas.width = dW; canvas.height = dH;
+            ctx.drawImage(img, sX, sY, sW, sH, 0, 0, dW, dH);
+
+            // Export to WebP and trigger download
+            canvas.toBlob((blob) => {
+              if (!blob) return reject(new Error('Canvas conversion failed.'));
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = file.name.replace(/\.[^/.]+$/, "") + ".webp";
+              document.body.appendChild(a); a.click(); document.body.removeChild(a);
+              URL.revokeObjectURL(url);
+              resolve();
+            }, 'image/webp', quality);
+          };
+          img.onerror = () => reject(new Error('Failed to load image.'));
+          img.src = e.target.result;
+        };
+        reader.onerror = () => reject(new Error('Failed to read file.'));
+        reader.readAsDataURL(file);
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Nail Factory · Ignition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Fluid Typography */
+      --text-xs: clamp(0.75rem, 0.7vw + 0.6rem, 0.85rem);
+      --text-base: clamp(1rem, 1vw + 0.8rem, 1.125rem);
+      --text-lg: clamp(1.25rem, 1.5vw + 1rem, 1.75rem);
+      --text-xl: clamp(1.5rem, 2.5vw + 1rem, 2.5rem);
+      --text-2xl: clamp(2rem, 3vw + 1.5rem, 3rem);
+      --text-hero: clamp(4rem, 8vw + 2rem, 9rem);
+
+      /* Dark Mode Colors */
+      --color-bg: #070709;
+      --color-bg-offset: #0a0a0d;
+      --color-text: #eae6d9;
+      --color-text-muted: #8c8980;
+      --color-gold: #d4af37;
+      --color-gold-faint: rgba(212, 175, 55, 0.15);
+      --color-cyan: #00e5ff;
+      --color-cyan-faint: rgba(0, 229, 255, 0.1);
+
+      /* Vibrant Mode Colors */
+      --color-vibrant-text: #1a1a24;
+      --color-vibrant-muted: #4a4a5a;
+
+      /* Fonts */
+      --font-display: 'Cormorant Garamond', serif;
+      --font-tech: 'Space Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background-color: var(--color-bg);
+      overflow: hidden;
+      transition: background-color 0.5s;
+    }
+
+    body {
+      font-family: var(--font-display);
+      color: var(--color-text);
+      line-height: 1.4;
+      position: relative;
+    }
+
+    /* Fixed Background Texture (Dark Mode) */
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background: radial-gradient(circle at center, var(--color-bg-offset) 0%, var(--color-bg) 100%);
+      transition: opacity 0.5s;
+    }
+
+    .bg-layer::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.04;
+      background-image: linear-gradient(var(--color-gold) 1px, transparent 1px), linear-gradient(90deg, var(--color-gold) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    /* Sacred Geometry (Dark Mode) */
+    .geometry-container {
+      position: fixed;
+      inset: -50%;
+      z-index: -1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.08;
+      pointer-events: none;
+      animation: rotate-slow 240s linear infinite;
+      transition: opacity 0.5s;
+    }
+
+    .geometry-svg {
+      width: 120vmin;
+      height: 120vmin;
+      stroke: var(--color-cyan);
+      fill: none;
+      stroke-width: 1px;
+    }
+
+    @keyframes rotate-slow {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Vibrant Video Background */
+    #main-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -3;
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+    }
+
+    .video-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.15), rgba(255, 61, 184, 0.15), rgba(255, 139, 43, 0.15));
+      mix-blend-mode: overlay;
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+    }
+
+    body.vibrant-mode {
+      background-color: transparent;
+    }
+
+    body.vibrant-mode #main-video,
+    body.vibrant-mode .video-overlay {
+      opacity: 1;
+    }
+
+    /* Scrollable Content Wrapper */
+    #content-wrapper {
+      position: fixed;
+      inset: 2.5rem;
+      overflow-y: auto;
+      overflow-x: hidden;
+      z-index: 1;
+      scrollbar-width: none; /* Firefox */
+    }
+    #content-wrapper::-webkit-scrollbar { display: none; /* Chrome/Safari */ }
+
+    /* Views */
+    #landing-view {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    #main-site-view {
+      display: none;
+      opacity: 0;
+      min-height: 100%;
+      position: relative;
+      z-index: 1;
+      padding: 6rem 2rem;
+      transition: opacity 2s ease-out;
+    }
+
+    /* Center Content */
+    .hero {
+      text-align: center;
+      padding: 2rem;
+      animation: fade-in 2.5s ease-out forwards;
+    }
+
+    @keyframes fade-in {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .tech-text {
+      font-family: var(--font-tech);
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--color-cyan);
+    }
+
+    .hero-kicker {
+      color: var(--color-gold);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .hero-kicker::before, .hero-kicker::after {
+      content: '';
+      height: 1px;
+      width: 60px;
+      background: var(--color-gold-faint);
+    }
+
+    .hero-title {
+      font-size: var(--text-hero);
+      line-height: 0.9;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+      text-shadow: 0 0 50px rgba(212, 175, 55, 0.15);
+    }
+
+    .hero-subtitle {
+      font-size: var(--text-xl);
+      color: var(--color-text-muted);
+      font-style: italic;
+      max-width: 24ch;
+      margin: 0 auto;
+    }
+
+    /* Mystical Button */
+    .mystical-btn-wrapper {
+      margin-top: 4rem;
+      opacity: 0;
+      animation: fade-in 2s ease-out 1.5s forwards; 
+    }
+
+    .mystical-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+      text-decoration: none;
+      padding: 1.2rem 3rem;
+      font-family: var(--font-tech);
+      font-size: 0.8rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--color-text);
+      background: rgba(10, 10, 13, 0.4);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: breathing-glow 4s ease-in-out infinite;
+    }
+
+    @keyframes breathing-glow {
+      0%, 100% { box-shadow: 0 0 15px rgba(212, 175, 55, 0.05), inset 0 0 10px rgba(212, 175, 55, 0.02); }
+      50% { box-shadow: 0 0 25px rgba(212, 175, 55, 0.15), inset 0 0 15px rgba(212, 175, 55, 0.08); }
+    }
+
+    .mystical-btn .flare {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(0, 229, 255, 0.15) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    .mystical-btn span { position: relative; z-index: 1; }
+
+    .mystical-btn::before, .mystical-btn::after {
+      content: '◈';
+      color: var(--color-gold);
+      font-size: 0.8rem;
+      position: relative;
+      z-index: 1;
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .mystical-btn:hover {
+      border-color: var(--color-cyan);
+      color: var(--color-cyan);
+      box-shadow: 0 0 40px rgba(0, 229, 255, 0.15), inset 0 0 20px rgba(0, 229, 255, 0.1);
+      text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
+      animation: none;
+    }
+
+    .mystical-btn:hover .flare { opacity: 1; }
+
+    .mystical-btn:hover::before, .mystical-btn:hover::after {
+      color: var(--color-cyan);
+      text-shadow: 0 0 10px var(--color-cyan);
+      transform: rotate(90deg);
+    }
+
+    /* IGNITION TRANSITION EFFECTS */
+    .ignition-flash {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      background: #ffffff;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+    }
+
+    body.is-igniting .ignition-flash {
+      opacity: 1;
+    }
+
+    /* Cyberpunk Framing Accents */
+    .corner-accents {
+      position: fixed;
+      inset: 2.5rem;
+      pointer-events: none;
+      border: 1px solid var(--color-cyan-faint);
+      z-index: 10;
+      transition: border-color 2s;
+    }
+    .vibrant-mode .corner-accents { border-color: rgba(255,255,255,0.4); }
+
+    .corner-accents::before, .corner-accents::after {
+      content: ''; position: absolute; width: 15px; height: 15px; transition: border-color 2s;
+    }
+    .corner-accents::before {
+      top: -1px; left: -1px; border-top: 2px solid var(--color-cyan); border-left: 2px solid var(--color-cyan);
+    }
+    .corner-accents::after {
+      bottom: -1px; right: -1px; border-bottom: 2px solid var(--color-cyan); border-right: 2px solid var(--color-cyan);
+    }
+    .vibrant-mode .corner-accents::before,
+    .vibrant-mode .corner-accents::after { border-color: #ffffff; }
+
+    /* Header & Footer (HUD) */
+    .site-header, .site-footer {
+      position: fixed; left: 0; width: 100%; height: 2.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem; font-family: var(--font-tech); font-size: 0.7rem;
+      text-transform: uppercase; letter-spacing: 0.15em; color: var(--color-cyan);
+      z-index: 100; pointer-events: auto;
+      background: rgba(7, 7, 9, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: border-color 2s;
+    }
+    .site-header { top: 0; border-bottom: 1px solid var(--color-cyan-faint); }
+    .site-footer { bottom: 0; border-top: 1px solid var(--color-cyan-faint); }
+    .site-header a, .site-footer a { color: var(--color-text-muted); text-decoration: none; transition: color 0.3s; }
+    .site-header a:hover, .site-footer a:hover { color: var(--color-cyan); }
+
+    .header-nav { display: flex; gap: 2rem; }
+    .vibrant-mode .site-header { border-bottom-color: rgba(255, 255, 255, 0.4); }
+    .vibrant-mode .site-footer { border-top-color: rgba(255, 255, 255, 0.4); }
+    .sys-status { display: flex; align-items: center; gap: 0.5rem; }
+    .status-dot {
+      width: 6px; height: 6px; background: var(--color-cyan); border-radius: 50%;
+      box-shadow: 0 0 8px var(--color-cyan); animation: pulse-dot 2s infinite alternate;
+    }
+    @keyframes pulse-dot { 0% { opacity: 0.3; } 100% { opacity: 1; } }
+
+    .newsletter { display: flex; align-items: center; border-bottom: 1px solid var(--color-cyan-faint); padding-bottom: 0.2rem; }
+    .newsletter-input {
+      background: transparent; border: none; color: var(--color-text);
+      font-family: var(--font-tech); font-size: 0.65rem; outline: none; width: 150px;
+    }
+    .newsletter-input::placeholder { color: var(--color-text-muted); letter-spacing: 0.1em; }
+    .newsletter-btn { background: transparent; border: none; color: var(--color-cyan); cursor: pointer; font-size: 0.7rem; }
+    .newsletter-btn:hover { color: var(--color-gold); }
+
+    .footer-meta { display: flex; gap: 2rem; align-items: center; }
+    .social-links { display: flex; gap: 1rem; }
+    .copyright { color: var(--color-text-muted); }
+
+    /* Main Site - Sacred Geometry Panels */
+    .glass-panel {
+      background: rgba(7, 7, 9, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--color-gold-faint);
+      border-radius: 0;
+      padding: 4rem;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 0 30px rgba(212, 175, 55, 0.05);
+      color: var(--color-text);
+      text-align: center;
+      margin-bottom: 4rem;
+      position: relative;
+      overflow: hidden;
+      clip-path: polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px);
+    }
+
+    .glass-panel::before {
+      content: ''; position: absolute; inset: 0;
+      background: url('Media/background.webp') center/cover no-repeat;
+      opacity: 0.1;
+      filter: sepia(100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .glass-panel::after {
+      content: ''; position: absolute; top: 50%; left: 50%;
+      width: 70%; height: 70%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      border: 1px dashed var(--color-cyan-faint);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .vibrant-mode .tech-text { color: var(--color-cyan); font-weight: normal; }
+
+    .main-title {
+      font-size: var(--text-2xl); color: var(--color-text); text-transform: uppercase;
+      letter-spacing: 0.1em; margin-bottom: 1.5rem; line-height: 1.1; position: relative; z-index: 1;
+      text-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+    }
+
+    /* New Content Sections */
+    .content-section { margin-top: 6rem; }
+    .content-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+    .glass-panel.small-panel { padding: 2rem; margin-bottom: 0; text-align: left; }
+
+    /* Clickable Link Panels */
+    a.link-panel {
+      display: block;
+      text-decoration: none; /* Removes the terrible default underline! */
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s, box-shadow 0.4s;
+      cursor: pointer;
+    }
+    a.link-panel:hover {
+      transform: translateY(-8px);
+      border-color: var(--color-cyan);
+      box-shadow: 0 40px 80px rgba(0,0,0,0.8), inset 0 0 40px rgba(0, 229, 255, 0.1);
+    }
+    a.link-panel:hover h4 { text-shadow: 0 0 10px rgba(0, 229, 255, 0.5); }
+
+    .explore-text {
+      font-family: var(--font-tech); font-size: 0.75rem; color: var(--color-gold);
+      text-transform: uppercase; letter-spacing: 0.1em; margin-top: 1.5rem;
+      display: inline-block; transition: color 0.3s; position: relative; z-index: 1;
+    }
+    a.link-panel:hover .explore-text { color: var(--color-cyan); }
+
+    .section-title { font-size: var(--text-xl); color: var(--color-gold); margin-bottom: 1rem; text-align: center; position: relative; z-index: 1; text-transform: uppercase; letter-spacing: 0.1em; }
+    .glass-panel h4 { font-size: var(--text-lg); margin-bottom: 0.5rem; color: var(--color-cyan); position: relative; z-index: 1; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    @media (max-width: 768px) {
+      .corner-accents, #content-wrapper { inset: 1.5rem; } .glass-panel { padding: 2rem; }
+      .site-header, .site-footer { padding: 0 1.5rem; height: 1.5rem; font-size: 0.55rem; }
+      .header-nav, .newsletter, .social-links { display: none; } /* Keeps mobile clean */
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fixed Header HUD -->
+  <header class="site-header">
+    <div class="brand">NF // REGEN_CAMPUS</div>
+    <nav class="header-nav">
+      <a href="#">Vision</a>
+      <a href="#">Spaces</a>
+      <a href="#">Leadership</a>
+    </nav>
+    <div class="sys-status">
+      <span class="status-dot"></span> SYS.ONLINE
+    </div>
+  </header>
+
+  <!-- Fixed Footer HUD -->
+  <footer class="site-footer">
+    <div class="coordinates">39.2616° N, 121.0160° W</div>
+    <div class="newsletter">
+      <input type="email" placeholder="JOIN THE NETWORK" class="newsletter-input" />
+      <button class="newsletter-btn">◈</button>
+    </div>
+    <div class="footer-meta">
+      <div class="social-links">
+        <a href="#">IG</a>
+        <a href="#">X</a>
+      </div>
+      <div class="copyright">© 2026 THE NAIL FACTORY</div>
+    </div>
+  </footer>
+
+  <!-- Background Video linked to your local NF.mp4 -->
+  <video id="main-video" autoplay loop muted playsinline>
+    <source src="Media/NF.mp4" type="video/mp4">
+  </video>
+  <div class="video-overlay"></div>
+
+  <!-- Transition Layers -->
+  <div class="ignition-flash"></div>
+
+  <!-- Dark Mode Backgrounds -->
+  <div class="corner-accents"></div>
+  <div class="bg-layer"></div>
+
+  <div class="geometry-container">
+    <svg class="geometry-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="100" r="90" stroke-width="0.5"/>
+      <circle cx="100" cy="100" r="85" stroke-width="0.2" stroke-dasharray="2 4"/>
+      <g stroke-width="0.3">
+        <circle cx="100" cy="70" r="30" />
+        <circle cx="100" cy="130" r="30" />
+        <circle cx="74" cy="85" r="30" />
+        <circle cx="126" cy="85" r="30" />
+        <circle cx="74" cy="115" r="30" />
+        <circle cx="126" cy="115" r="30" />
+        <circle cx="100" cy="100" r="30" />
+      </g>
+      <g stroke="var(--color-gold)" stroke-width="0.2" opacity="0.5">
+        <line x1="100" y1="10" x2="22" y2="55" />
+        <line x1="22" y1="55" x2="22" y2="145" />
+        <line x1="22" y1="145" x2="100" y2="190" />
+        <line x1="100" y1="190" x2="178" y2="145" />
+        <line x1="178" y1="145" x2="178" y2="55" />
+        <line x1="178" y1="55" x2="100" y2="10" />
+        <line x1="100" y1="10" x2="100" y2="190" />
+        <line x1="22" y1="55" x2="178" y2="145" />
+        <line x1="22" y1="145" x2="178" y2="55" />
+      </g>
+    </svg>
+  </div>
+
+  <!-- Scrollable Wrapper Inside the Accents -->
+  <div id="content-wrapper">
+
+  <!-- VIEW 1: LANDING -->
+  <div id="landing-view">
+    <div class="hero">
+      <div class="hero-sacred-bg">
+        <div class="sacred-shape circle"></div>
+        <div class="sacred-shape diamond"></div>
+        <div class="sacred-shape circle-inner"></div>
+      </div>
+
+      <div class="tech-text hero-kicker">Nevada City · 15.6 Acres</div>
+      <h1 class="hero-title">The Nail Factory</h1>
+      <h2 class="hero-subtitle">A seasoned creative community, evolving.</h2>
+
+      <div class="mystical-btn-wrapper">
+        <a href="#" class="mystical-btn" id="engage-btn">
+          <div class="flare"></div>
+          <span>click here to engage</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW 2: MAIN SITE -->
+  <div id="main-site-view">
+    <div style="max-width: 1000px; margin: 0 auto;">
+
+      <!-- Frosted Glass Panel -->
+      <div class="glass-panel">
+        <div class="tech-text" style="margin-bottom: 1.5rem; position: relative; z-index: 1;">Phase Two Initiated</div>
+        <h2 class="main-title">Welcome to the Nail Factory</h2>
+        <p style="font-size: var(--text-lg); color: var(--color-text-muted); max-width: 32ch; margin: 0 auto; position: relative; z-index: 1;">
+          For years, these 15.6 acres in Nevada City have incubated temple builds, large-scale experiential art, and a vibrant creative lineage. Now, The Nail Factory is evolving into a living blueprint for community resilience—braiding art, technology, and regenerative practices into a thriving, year-round ecosystem.
+        </p>
+      </div>
+
+      <!-- Vision Statement -->
+      <div class="content-section">
+        <div class="glass-panel">
+          <h3 class="section-title">Vision Statement</h3>
+          <p style="font-size: var(--text-lg); color: var(--color-text-muted); max-width: 40ch; margin: 0 auto; position: relative; z-index: 1;">
+            To cultivate a regenerative and thriving environment where creativity, nature, and technology converge to empower our community and reshape our collective future.
+          </p>
+        </div>
+      </div>
+
+      <!-- Current Community Spaces -->
+      <div class="content-section">
+        <div class="tech-text" style="text-align: center; margin-bottom: 2rem;">Current Community Spaces</div>
+        <div class="content-grid">
+          <a href="industrial-park.html" class="glass-panel small-panel link-panel">
+            <h4>Industrial Park</h4>
+            <p style="color: var(--color-text-muted); position: relative; z-index: 1;">The heart of our current operations, fostering creative and industrial collaboration.</p>
+            <div class="explore-text">click here to explore more ◈</div>
+          </a>
+          <a href="workshops.html" class="glass-panel small-panel link-panel">
+            <h4>The Workshops</h4>
+            <p style="color: var(--color-text-muted); position: relative; z-index: 1;">Dedicated areas for makers, artists, and builders to prototype and create.</p>
+            <div class="explore-text">click here to explore more ◈</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Bios -->
+      <div class="content-section">
+        <div class="tech-text" style="text-align: center; margin-bottom: 2rem;">Leadership & Bios</div>
+        <div class="content-grid">
+          <a href="jane-doe.html" class="glass-panel small-panel link-panel">
+            <h4>Jane Doe</h4>
+            <p style="color: var(--color-text-muted); position: relative; z-index: 1;">Creative Director & Lead Architect</p>
+            <div class="explore-text">click here to explore more ◈</div>
+          </a>
+          <a href="john-smith.html" class="glass-panel small-panel link-panel">
+            <h4>John Smith</h4>
+            <p style="color: var(--color-text-muted); position: relative; z-index: 1;">Director of Regenerative Systems</p>
+            <div class="explore-text">click here to explore more ◈</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Future Developments -->
+      <div class="content-section" style="margin-bottom: 6rem;">
+        <div class="tech-text" style="text-align: center; margin-bottom: 2rem;">Future Developments</div>
+        <div class="content-grid">
+          <a href="living-buildings.html" class="glass-panel small-panel link-panel">
+            <h4>Living Buildings Expansion</h4>
+            <p style="color: var(--color-text-muted); position: relative; z-index: 1;">Phase 2 integration of fully autonomous, zero-emission habitats.</p>
+            <div class="explore-text">click here to explore more ◈</div>
+          </a>
+          <a href="seed-to-table.html" class="glass-panel small-panel link-panel">
+            <h4>Seed-to-Table Hub</h4>
+            <p style="color: var(--color-text-muted); position: relative; z-index: 1;">A comprehensive agricultural center designed to sustain the community year-round.</p>
+            <div class="explore-text">click here to explore more ◈</div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  </div> <!-- End of content-wrapper -->
+
+  <script>
+    // Check if we are returning directly to the main site from a subpage
+    if (window.location.hash === '#main') {
+      document.getElementById('landing-view').style.display = 'none';
+      document.querySelector('.bg-layer').style.display = 'none';
+      document.querySelector('.geometry-container').style.display = 'none';
+      document.body.classList.add('vibrant-mode');
+      
+      const video = document.getElementById('main-video');
+      video.play().catch(e => console.log("Video auto-play prevented by browser"));
+
+      const mainSite = document.getElementById('main-site-view');
+      mainSite.style.display = 'block';
+      mainSite.style.opacity = '1';
+    }
+
+    document.getElementById('engage-btn').addEventListener('click', function(e) {
+      e.preventDefault();
+
+      document.body.classList.add('is-igniting');
+
+      setTimeout(() => {
+        document.getElementById('landing-view').style.display = 'none';
+        document.querySelector('.bg-layer').style.display = 'none';
+        document.querySelector('.geometry-container').style.display = 'none';
+
+        document.body.classList.add('vibrant-mode');
+
+        const video = document.getElementById('main-video');
+        video.play().catch(e => console.log("Video auto-play prevented by browser"));
+
+        const mainSite = document.getElementById('main-site-view');
+        mainSite.style.display = 'block';
+
+        void mainSite.offsetWidth;
+        mainSite.style.opacity = '1';
+
+        document.body.classList.remove('is-igniting');
+
+      }, 800);
+    });
+  </script>
+</body>
+</html>
