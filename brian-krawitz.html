@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Brian Krawitz · The Nail Factory</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --text-xs: clamp(0.75rem, 0.7vw + 0.6rem, 0.85rem);
+      --text-base: clamp(1rem, 1vw + 0.8rem, 1.125rem);
+      --text-2xl: clamp(1.1rem, 4vw + 0.5rem, 3rem);
+      --color-bg: #070709;
+      --color-text: #eae6d9;
+      --color-text-muted: #8c8980;
+      --color-gold: #d4af37;
+      --color-gold-faint: rgba(212, 175, 55, 0.15);
+      --color-cyan: #00e5ff;
+      --color-cyan-faint: rgba(0, 229, 255, 0.1);
+      --font-display: 'Cormorant Garamond', serif;
+      --font-tech: 'Space Mono', monospace;
+    }
+    body { font-family: var(--font-display); background-color: var(--color-bg); color: var(--color-text); margin: 0; padding: 4rem 2rem; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+    .container { max-width: 900px; width: 100%; }
+    .glass-panel {
+      background: rgba(7, 7, 9, 0.75); backdrop-filter: blur(16px);
+      border: 1px solid var(--color-gold-faint); padding: 4rem;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 0 30px rgba(212, 175, 55, 0.05);
+      text-align: center; position: relative;
+      clip-path: polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px);
+    }
+    .tech-text { font-family: var(--font-tech); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.2em; color: var(--color-cyan); margin-bottom: 1rem; }
+    h1 { font-size: var(--text-2xl); color: var(--color-text); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2rem; text-shadow: 0 0 30px rgba(212, 175, 55, 0.2); }
+    .bio-text { font-size: var(--text-base); color: var(--color-text-muted); line-height: 1.7; max-width: 70ch; margin: 0 auto 1.5rem; text-align: left; }
+    .back-btn { font-family: var(--font-tech); color: var(--color-gold); text-decoration: none; text-transform: uppercase; font-size: var(--text-xs); letter-spacing: 0.1em; border: 1px solid var(--color-gold-faint); padding: 0.75rem 1.5rem; transition: all 0.3s; display: inline-block; }
+    .back-btn:hover { border-color: var(--color-cyan); color: var(--color-cyan); box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); }
+    .button-group { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-top: 3rem; margin-bottom: 1rem; }
+
+    @media (max-width: 768px) {
+      body { padding: 2rem 1rem; }
+      .glass-panel { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="glass-panel">
+      <div class="tech-text">Artist & Creative Technology Evangelist</div>
+      <h1>Brian Krawitz</h1>
+      
+      <p class="bio-text">Brian Krawitz is an artist, creative technology evangelist, and systems-minded builder whose work moves between sculpture, immersive environments, and regenerative community design. With a career spanning nearly three decades across broadcast media, experiential production, XR development, and large-scale installation, he brings a rare combination of technical fluency and visionary imagination to everything he creates.</p>
+      
+      <p class="bio-text">Raised in a family of musicians and shaped by the energy of New York’s rave culture, Brian came to understand early that sound, light, and shared experience could become powerful tools for transformation. That insight still lives at the core of his practice, where art is not treated as decoration, but as a living interface between imagination, technology, and human connection.</p>
+      
+      <p class="bio-text">His professional path in television began in 1997 at Bloomberg in New York, initiating a deep dive into media systems and live production workflows that later included roles at E! Networks, Al Gore’s Current TV, and ON24. Rather than pulling him away from art, that foundational career gave him the precision, discipline, and systems awareness that now support his creative work across both physical and digital space.</p>
+      
+      <p class="bio-text">Over time, Brian brought that technical sensibility into large-scale participatory art and immersive installation. He contributed to major collaborative works including Temple of Flux at Burning Man, where he served as project lead; Zoa, where he led lighting fixture design; and Mens Amplio, where he developed lighting concepts and led volunteer teams for the build. Alongside those collaborations, he has created his own sculptural works such as Life Within Itself, The Fountain of Pon Lai, and Kryptonicity, using light, geometry, fabricated materials, and interactive design to create experiences that invite contemplation, wonder, and presence. His work has ranged from festival-scale installation to exhibition contexts including the San Francisco Exploratorium.</p>
+      
+      <p class="bio-text">As digital space opened new creative territory, Brian expanded his practice into virtual reality and immersive world-building. He developed projects including Unity Sanctuary, The Connected Experience, VR TESOL Environments, Wise Mirror, and co-developed Heartland VR, bringing together Unity development, 3D design, experiential storytelling, and community-centered interaction. Across these works, he treats virtual space much like sculpture: as something to be entered, felt, and inhabited rather than simply viewed.</p>
+      
+      <p class="bio-text">In recent years, Brian’s practice has evolved beyond art alone and further into land stewardship and regeneration. Applying his systems-minded approach to physical land projects, he has worked with regenerative communities and spaces including Heartland Collective, Ascension Ranch, and Spirit Well Ranch. Across these locations, he has provided a vital mix of hands-on land stewardship, infrastructure development, and systems design—helping to build the physical and operational foundations required for off-grid, sustainable living. This localized, on-the-ground work parallels his larger-scale initiatives with the Agriculture Value Chain Network (AVN), where he helps cultivate agricultural networks, advises on open-source ecosystem tools, and in the conceptual stage of creating digital twins and VR experiences that make eco-learning accessible globally.</p>
+      
+      <p class="bio-text">What connects all of Brian’s work is a commitment to building environments that help people sense new possibilities. Whether he is shaping a light sculpture, helping realize a large-scale installation, prototyping an immersive world, or designing circular life systems, his focus remains the same: to bridge imagination and reality in ways that deepen coherence between people, place, and future. Currently based in Northern California, he is anchoring an 11-practice regenerative demonstration site—weaving local food systems, ecological practices, and immersive design into a living blueprint for community resilience that serves as a seed point for AVN’s global expansion. Through all his endeavors, he continues to create at the intersection of art, technology, community, and regeneration.</p>
+
+      <div class="button-group">
+        <a href="https://www.linkedin.com/in/bkrawitz/" target="_blank" class="back-btn">LinkedIn ◈</a>
+        <a href="https://briankrawitz.com" target="_blank" class="back-btn">Website ◈</a>
+        <a href="mailto:b@briankrawitz.com" class="back-btn">Contact ◈</a>
+      </div>
+
+      <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px dashed var(--color-cyan-faint);">
+        <a href="index.html#main" class="back-btn">← Return to Campus</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

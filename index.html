@@ -14,14 +14,14 @@
       --text-base: clamp(1rem, 1vw + 0.8rem, 1.125rem);
       --text-lg: clamp(1.25rem, 1.5vw + 1rem, 1.75rem);
       --text-xl: clamp(1.5rem, 2.5vw + 1rem, 2.5rem);
-      --text-2xl: clamp(1.1rem, 4vw + 0.5rem, 3rem);
+      --text-2xl: clamp(1.75rem, 4vw + 0.5rem, 3rem);
       --text-hero: clamp(4rem, 8vw + 2rem, 9rem);
 
       /* Dark Mode Colors */
       --color-bg: #070709;
       --color-bg-offset: #0a0a0d;
       --color-text: #eae6d9;
-      --color-text-muted: #8c8980;
+      --color-text-muted: #b8b4a8;
       --color-gold: #d4af37;
       --color-gold-faint: rgba(212, 175, 55, 0.15);
       --color-cyan: #00e5ff;
@@ -363,13 +363,13 @@
 
     /* Main Site - Sacred Geometry Panels */
     .glass-panel {
-      background: rgba(7, 7, 9, 0.75);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--color-gold-faint);
+      background: rgba(7, 7, 9, 0.2);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 0;
       padding: 4rem;
-      box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 0 30px rgba(212, 175, 55, 0.05);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2), inset 0 0 20px rgba(255,255,255,0.03);
       color: var(--color-text);
       text-align: center;
       margin-bottom: 4rem;
@@ -405,9 +405,18 @@
     }
 
     /* New Content Sections */
-    .content-section { margin-top: 6rem; }
+    .content-section { margin-top: 10rem; }
     .content-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
-    .glass-panel.small-panel { padding: 2rem; margin-bottom: 0; text-align: left; }
+    .glass-panel.small-panel { 
+      padding: 2rem; 
+      margin-bottom: 0; 
+      text-align: left; 
+      background: rgba(7, 7, 9, 0.2);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2), inset 0 0 20px rgba(255,255,255,0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
 
     /* Clickable Link Panels */
     a.link-panel {
@@ -418,8 +427,8 @@
     }
     a.link-panel:hover {
       transform: translateY(-8px);
-      border-color: var(--color-cyan);
-      box-shadow: 0 40px 80px rgba(0,0,0,0.8), inset 0 0 40px rgba(0, 229, 255, 0.1);
+      border-color: rgba(0, 229, 255, 0.5);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3), inset 0 0 30px rgba(0, 229, 255, 0.06);
     }
     a.link-panel:hover h4 { text-shadow: 0 0 10px rgba(0, 229, 255, 0.5); }
 
@@ -608,6 +617,11 @@
           <a href="john-smith.html" class="glass-panel small-panel link-panel">
             <h4>John Smith</h4>
             <p style="color: var(--color-text-muted); position: relative; z-index: 1;">Director of Regenerative Systems</p>
+            <div class="explore-text">click here to explore more ◈</div>
+          </a>
+          <a href="brian-krawitz.html" class="glass-panel small-panel link-panel">
+            <h4>Brian Krawitz</h4>
+            <p style="color: var(--color-text-muted); position: relative; z-index: 1;">Artist & Creative Technology Evangelist</p>
             <div class="explore-text">click here to explore more ◈</div>
           </a>
         </div>
