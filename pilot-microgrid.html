@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Waste-to-Energy Microgrid · The Nail Factory</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --text-xs: clamp(0.75rem, 0.7vw + 0.6rem, 0.85rem);
+      --text-base: clamp(1rem, 1vw + 0.8rem, 1.125rem);
+      --text-2xl: clamp(1.1rem, 4vw + 0.5rem, 3rem);
+      --color-bg: #070709;
+      --color-text: #eae6d9;
+      --color-text-muted: #8c8980;
+      --color-gold: #d4af37;
+      --color-gold-faint: rgba(212, 175, 55, 0.15);
+      --color-cyan: #00e5ff;
+      --font-display: 'Cormorant Garamond', serif;
+      --font-tech: 'Space Mono', monospace;
+    }
+    body { font-family: var(--font-display); background-color: var(--color-bg); color: var(--color-text); margin: 0; padding: 4rem 2rem; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+    .container { max-width: 800px; width: 100%; }
+    .glass-panel {
+      background: rgba(7, 7, 9, 0.75); backdrop-filter: blur(16px);
+      border: 1px solid var(--color-gold-faint); padding: 4rem;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 0 30px rgba(212, 175, 55, 0.05);
+      text-align: center; position: relative;
+      clip-path: polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px);
+    }
+    .tech-text { font-family: var(--font-tech); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.2em; color: var(--color-cyan); margin-bottom: 1rem; }
+    h1 { font-size: var(--text-2xl); color: var(--color-text); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2rem; text-shadow: 0 0 30px rgba(212, 175, 55, 0.2); }
+    p { font-size: var(--text-base); color: var(--color-text-muted); line-height: 1.6; max-width: 60ch; margin: 0 auto 2rem; }
+    .back-btn { font-family: var(--font-tech); color: var(--color-gold); text-decoration: none; text-transform: uppercase; font-size: var(--text-xs); letter-spacing: 0.1em; border: 1px solid var(--color-gold-faint); padding: 0.75rem 1.5rem; transition: all 0.3s; display: inline-block; margin-top: 2rem; }
+    .back-btn:hover { border-color: var(--color-cyan); color: var(--color-cyan); box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); }
+    @media (max-width: 768px) { body { padding: 2rem 1rem; } .glass-panel { padding: 2rem 1.5rem; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="glass-panel">
+      <div class="tech-text">Active Pilot · Investor Brief</div>
+      <h1>Waste-to-Energy Microgrid</h1>
+      <p>
+        Our microgrid pilot transforms standard operational expenses—waste management and energy consumption—into a revenue-generating, carbon-negative asset. By utilizing advanced biomass pyrolysis, we convert campus organic waste into localized electricity and market-ready biochar, creating a profitable, closed-loop energy ecosystem.
+      </p>
+      <a href="index.html#main" class="back-btn">← Return to Campus</a>
+    </div>
+  </div>
+</body>
+</html>

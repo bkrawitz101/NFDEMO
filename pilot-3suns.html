@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>3SUNS Mobile Biochar & Mill Hub · The Nail Factory</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --text-xs: clamp(0.75rem, 0.7vw + 0.6rem, 0.85rem);
+      --text-base: clamp(1rem, 1vw + 0.8rem, 1.125rem);
+      --text-lg: clamp(1.2rem, 2vw + 0.8rem, 1.5rem);
+      --text-2xl: clamp(1.1rem, 4vw + 0.5rem, 3rem);
+      --color-bg: #070709;
+      --color-text: #eae6d9;
+      --color-text-muted: #8c8980;
+      --color-gold: #d4af37;
+      --color-gold-faint: rgba(212, 175, 55, 0.15);
+      --color-cyan: #00e5ff;
+      --font-display: 'Cormorant Garamond', serif;
+      --font-tech: 'Space Mono', monospace;
+    }
+    body { font-family: var(--font-display); background-color: var(--color-bg); color: var(--color-text); margin: 0; padding: 4rem 2rem; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+    .container { max-width: 900px; width: 100%; }
+    .glass-panel {
+      background: rgba(7, 7, 9, 0.75); backdrop-filter: blur(16px);
+      border: 1px solid var(--color-gold-faint); padding: 4rem;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 0 30px rgba(212, 175, 55, 0.05);
+      position: relative;
+      clip-path: polygon(30px 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%, 0 30px);
+    }
+    .tech-text { font-family: var(--font-tech); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.2em; color: var(--color-cyan); margin-bottom: 1rem; text-align: center; }
+    h1 { font-size: var(--text-2xl); color: var(--color-text); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; text-shadow: 0 0 30px rgba(212, 175, 55, 0.2); text-align: center; }
+    h3 { font-size: var(--text-lg); color: var(--color-gold); margin-top: 2.5rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.1em; font-family: var(--font-tech); }
+    p { font-size: var(--text-base); color: var(--color-text-muted); line-height: 1.6; margin: 0 0 1.5rem 0; }
+    ul { font-size: var(--text-base); color: var(--color-text-muted); line-height: 1.6; margin-bottom: 1.5rem; padding-left: 1.5rem; }
+    li { margin-bottom: 0.5rem; }
+    strong { color: var(--color-text); font-weight: 600; }
+    .back-btn { font-family: var(--font-tech); color: var(--color-gold); text-decoration: none; text-transform: uppercase; font-size: var(--text-xs); letter-spacing: 0.1em; border: 1px solid var(--color-gold-faint); padding: 0.75rem 1.5rem; transition: all 0.3s; display: inline-block; margin-top: 2rem; }
+    .back-btn:hover { border-color: var(--color-cyan); color: var(--color-cyan); box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); }
+    button.back-btn { background: transparent; cursor: pointer; outline: none; }
+    .button-group { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
+    .button-group .back-btn { margin-top: 0; }
+    .center-wrap { text-align: center; }
+    
+    /* Modal Styles */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 1000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; padding: 2rem; box-sizing: border-box; }
+    .modal-overlay.active { display: flex; opacity: 1; }
+    .modal-content { background: rgba(7, 7, 9, 0.95); border: 1px solid var(--color-cyan); padding: 1.5rem; max-width: 1000px; width: 100%; max-height: 100%; overflow-y: auto; position: relative; transform: translateY(20px); transition: transform 0.3s; box-shadow: 0 0 40px rgba(0, 229, 255, 0.1); scrollbar-width: thin; scrollbar-color: var(--color-cyan) transparent; }
+    .modal-content::-webkit-scrollbar { width: 6px; }
+    .modal-content::-webkit-scrollbar-track { background: transparent; }
+    .modal-content::-webkit-scrollbar-thumb { background: var(--color-cyan); border-radius: 6px; }
+    .modal-overlay.active .modal-content { transform: translateY(0); }
+    .modal-close { position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(7, 7, 9, 0.8); border: 1px solid var(--color-gold); color: var(--color-gold); font-size: 1.5rem; cursor: pointer; transition: all 0.3s; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; z-index: 1010; }
+    .modal-close:hover { color: var(--color-cyan); border-color: var(--color-cyan); box-shadow: 0 0 15px rgba(0, 229, 255, 0.3); transform: scale(1.1); }
+    .deck-image { width: 100%; height: auto; border: 1px solid var(--color-gold-faint); margin-bottom: 1rem; display: block; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    .deck-image:last-child { margin-bottom: 0; }
+
+    @media (max-width: 768px) { 
+      body { padding: 2rem 1rem; } 
+      .glass-panel { padding: 2rem 1.5rem; }
+      .modal-overlay { padding: 1rem; }
+      .modal-close { top: 1rem; right: 1rem; width: 35px; height: 35px; font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="glass-panel">
+      <div class="tech-text">Active Pilot · Investor Brief</div>
+      <h1>3SUNS Mobile Biochar & Mill Hub</h1>
+      <p class="center-wrap" style="color: var(--color-cyan); font-family: var(--font-tech); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2rem;">Closed-Loop Land Management & Hyper-Local Timber Micro-Economy</p>
+      
+      <h3>The Catalyst & Concept</h3>
+      <p>Driven by the need to clear dead cedar logs, brush, and slash from the 15.6 acres to mitigate wildfire risk, combined with the need for building materials for campus structures, we developed the <strong>3SUNS Hub</strong>. It is an ATV-towable, self-powered fabrication hub built on a standard utility trailer. By combining a portable sawmill with a repurposed 100-gallon retort kiln, it entirely eliminates the "parasitic load" of fossil fuels typically required to manage land and process lumber.</p>
+      
+      <h3>The Circular System (The Energy Loop)</h3>
+      <ul>
+        <li><strong>Startup:</strong> Dead brush, slash, and bark are loaded into the kiln. A small starter fire brings the retort up to gasification temperature.</li>
+        <li><strong>The Syngas Engine:</strong> As the wood off-gases, the kiln captures the syngas (wood gas) and feeds it directly into a modified internal combustion engine.</li>
+        <li><strong>The Mill:</strong> The syngas-powered engine drives the portable sawmill.</li>
+        <li><strong>Continuous Feed:</strong> The sawmill cuts usable cedar logs into dimensional lumber. The resulting sawdust, bark, and off-cuts are fed back into the kiln to maintain the reaction.</li>
+        <li><strong>The Quench:</strong> The remaining material in the kiln is converted to pure biochar, which is instantly extinguished via a built-in water reservoir system.</li>
+        <li><strong>Soil Integration:</strong> The biochar is spread back onto The Nail Factory's land, acting as a permanent sponge for water and microbial life.</li>
+      </ul>
+
+      <h3>Environmental & Ecological Impact</h3>
+      <ul>
+        <li><strong>Wildfire Mitigation without Emissions:</strong> Eliminates traditional "pile-burning," which is highly dangerous in Northern California and releases raw greenhouse gases.</li>
+        <li><strong>Zero Fossil Fuels:</strong> The system requires no gasoline or diesel to operate the heavy machinery.</li>
+        <li><strong>Permanent Carbon Sequestration:</strong> Biochar is one of the most effective, stable forms of carbon storage known, locking carbon into the earth for hundreds to thousands of years while rapidly regenerating depleted topsoil.</li>
+      </ul>
+
+      <h3>The Financial Model & Investor ROI</h3>
+      <ul>
+        <li><strong>CapEx Elimination:</strong> Erases the cost of purchasing structural lumber for campus builds, and eliminates the heavy fossil fuel costs of land clearing and chipping.</li>
+        <li><strong>Hyper-Local Timber Sales:</strong> The hub creates a framework to visually grade and stamp structural lumber under FSC Group Certification exemptions, allowing the campus to sell eco-premium, native lumber locally.</li>
+        <li><strong>Biochar Product Sales:</strong> Premium, water-quenched biochar can be packaged and sold to local agricultural networks and farms.</li>
+        <li><strong>Carbon Credits:</strong> The sequestered biochar creates a measurable, verifiable carbon sink, allowing the project to mint and sell high-value carbon sequestration credits on the voluntary market.</li>
+        <li><strong>Tool-Share Leasing:</strong> The mobile hub can be rented out to neighboring properties and ranches via a Maker Space tool-share model, generating ongoing passive income while helping neighbors clear their own fire hazards.</li>
+      </ul>
+
+      <div class="button-group">
+        <button onclick="openModal('modal-deck')" class="back-btn">View Pitch Deck ◈</button>
+        <a href="index.html#main" class="back-btn">← Return to Campus</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pitch Deck Modal -->
+  <div class="modal-overlay" id="modal-deck">
+    <button class="modal-close" onclick="closeModal('modal-deck')">×</button>
+    <div class="modal-content">
+      <div class="tech-text" style="margin-bottom: 1.5rem; text-align: center;">3SUNS Pitch Deck</div>
+      <img src="Media/Mobile%20Biochar%201.jpg" alt="Mobile Biochar Slide 1" class="deck-image" loading="lazy">
+      <img src="Media/Mobile%20Biochar%202.jpg" alt="Mobile Biochar Slide 2" class="deck-image" loading="lazy">
+      <img src="Media/Mobile%20Biochar%203.jpg" alt="Mobile Biochar Slide 3" class="deck-image" loading="lazy">
+      <img src="Media/Mobile%20Biochar%204.jpg" alt="Mobile Biochar Slide 4" class="deck-image" loading="lazy">
+      <img src="Media/Mobile%20Biochar%205.jpg" alt="Mobile Biochar Slide 5" class="deck-image" loading="lazy">
+      <img src="Media/Mobile%20Biochar%206.jpg" alt="Mobile Biochar Slide 6" class="deck-image" loading="lazy">
+      <img src="Media/Mobile%20Biochar%207.jpg" alt="Mobile Biochar Slide 7" class="deck-image" loading="lazy">
+      <img src="Media/Mobile%20Biochar%208.jpg" alt="Mobile Biochar Slide 8" class="deck-image" loading="lazy">
+    </div>
+  </div>
+
+  <script>
+    function openModal(id) { 
+      const m = document.getElementById(id); 
+      m.style.display = 'flex'; 
+      void m.offsetWidth; 
+      m.classList.add('active'); 
+      document.body.style.overflow = 'hidden'; 
+    }
+    function closeModal(id) { 
+      const m = document.getElementById(id); 
+      m.classList.remove('active'); 
+      setTimeout(() => {
+        m.style.display = 'none';
+        document.body.style.overflow = '';
+      }, 300); 
+    }
+    window.onclick = function(e) { 
+      if (e.target.classList.contains('modal-overlay')) {
+        closeModal(e.target.id);
+      } 
+    }
+  </script>
+</body>
+</html>
