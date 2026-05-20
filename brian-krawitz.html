@@ -56,12 +56,14 @@
 
     /* Print styles to generate a clean PDF */
     @media print {
-      body { background: white; color: black; padding: 0; display: block; }
-      .glass-panel { background: none; border: none; box-shadow: none; padding: 0; color: black; clip-path: none; }
-      h1 { color: black; text-shadow: none; margin-bottom: 1rem; }
-      .tech-text { color: #555; }
-      .bio-text { color: black; font-size: 12pt; max-width: 100%; }
-      .bio-avatar { border: 1px solid #ccc; box-shadow: none; margin-bottom: 1rem; }
+      @page { margin: 0.5in; size: letter; }
+      body { background: white !important; color: black !important; padding: 0.5in !important; margin: 0 !important; display: block !important; min-height: auto !important; box-sizing: border-box !important; }
+      .container { max-width: 100% !important; width: 100% !important; margin: 0 !important; padding: 0 !important; display: block !important; }
+      .glass-panel { background: none !important; border: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; color: black !important; clip-path: none !important; transform: none !important; }
+      h1 { color: black !important; text-shadow: none !important; margin-bottom: 0.5rem !important; margin-top: 0 !important; }
+      .tech-text { color: #666 !important; }
+      .bio-text { color: black !important; font-size: 11pt !important; line-height: 1.5 !important; max-width: 100% !important; margin-bottom: 1rem !important; }
+      .bio-avatar { border: 1px solid #ccc !important; box-shadow: none !important; margin-bottom: 1.5rem !important; width: 120px !important; height: 120px !important; }
       .button-group, .back-btn { display: none !important; }
       div[style*="border-top"] { display: none !important; }
     }
@@ -71,7 +73,7 @@
   <div class="container">
     <div class="glass-panel">
       <img src="Media/Brian.jpg" alt="Brian Krawitz" class="bio-avatar">
-      <div class="tech-text">Imagineer | Community Instigator | MetaConnector | Poetic Philosopher | Transmedia Visionary | Transformational Futurist | Creative Technology Evangelist</div>
+      <div class="tech-text">Creative Technology Evangelist</div>
       <h1>Brian Krawitz</h1>
       
       <p class="bio-text">Brian Krawitz is an artist, creative technology evangelist, and systems-minded builder whose work moves between sculpture, immersive environments, and regenerative community design. With a career spanning nearly three decades across broadcast media, experiential production, XR development, and large-scale installation, he brings a rare combination of technical fluency and visionary imagination to everything he creates.</p>
